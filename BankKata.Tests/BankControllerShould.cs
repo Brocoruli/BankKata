@@ -1,7 +1,6 @@
 using System.Net;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
-using Microsoft.VisualStudio.TestPlatform.TestHost;
 using WireMock.Server;
 
 namespace BankKata.Tests;
