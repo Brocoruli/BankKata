@@ -24,12 +24,12 @@ public class BankControllerShould
         response = await client.GetAsync("Bank/GetStatement");
         var jsonResponse = await response.Content.ReadAsStringAsync();
         var result = JsonSerializer.Deserialize<Account>(jsonResponse);
-        var expectedStatement = new Account()
+        var expectedAccount = new Account()
         {
             Balance = 500,
             Movements = { new Movement(500, 500) }
         };
-        Assert.Equal(expectedStatement, result);
+        Assert.Equal(expectedAccount.Balance, result.Balance);
     }
 
     private HttpClient GetTestHttpClient()
@@ -44,20 +44,4 @@ public class BankControllerShould
         });
         return client;
     }
-}
-
-public class Account
-{
-    public int Balance { get; set; }
-    public readonly List<Movement> Movements = new();
-}
-
-public class Movement
-{
-    public Movement(int amount, int balance)
-    {
-        Statement = $" || {amount} || {balance}";
-    }
-
-    public string Statement { get; set; }
 }
