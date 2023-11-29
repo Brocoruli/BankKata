@@ -6,18 +6,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton(new AccountRepository());
 var app = builder.Build();
 
-app.MapGet("/", () => "Hello World!");
-
-app.MapPost("Bank/Deposit/amount",(HttpContext context, AccountRepository accountRepository, int id, int amount) =>
+app.MapPost("Bank/Deposit/amount",(HttpContext context, AccountRepository accountRepository, AccountRequest accountRequest) =>
 {
-    accountRepository.Deposit(id, amount);
+    accountRepository.Deposit(accountRequest.id, accountRequest.amount);
     context.Response.WriteAsync("Ok");
 });
 
-app.MapGet("Bank/GetStatement", async context =>
+app.MapGet("Bank/GetStatement/{id}", ([FromRoute] int id, HttpRequest request, AccountRepository accountRepository) =>
 {
-    //var account = accountRepository.Get();
-    //return account;
+    return accountRepository.GetBalance(id);
 });
 
 app.Run();

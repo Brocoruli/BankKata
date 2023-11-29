@@ -24,4 +24,10 @@ public class AccountRepository
         persistedAccount.Balance += amount;
         persistedAccount.Movements.Add(new Movement(amount, persistedAccount.Balance));
     }
+
+    public int GetBalance(int id)
+    {
+        var persistedAccount = accounts.Find(a => a.Id == id);
+        return persistedAccount.Balance;
+    }
 }
