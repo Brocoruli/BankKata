@@ -1,4 +1,3 @@
-using System.Security.Principal;
 using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
