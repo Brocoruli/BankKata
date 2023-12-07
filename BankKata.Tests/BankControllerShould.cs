@@ -73,6 +73,39 @@ public class BankControllerShould
         };
         Assert.Equal(expectedAccount.Balance, result);
     }
+    
+    [Fact]
+    public async void NotMakeAWithdrawWhenBalanceFallsBelowZero()
+    {
+        using var client = GetTestHttpClient();
+        var responseWithdraw = new HttpResponseMessage(HttpStatusCode.NotImplemented);
+        var accountRequest = new AccountRequest()
+        {
+            id = 2,
+            amount = 1000
+        };
+        var request = JsonSerializer.Serialize(accountRequest);
+        
+        responseWithdraw = await client.PostAsync("Bank/Withdraw/amount",
+            new StringContent(request, Encoding.UTF8, "application/json"));
+
+        Assert.Equal(HttpStatusCode.BadRequest, responseWithdraw.StatusCode);
+
+        
+        var response = new HttpResponseMessage(HttpStatusCode.NotImplemented);
+        var id = 2;
+        
+        response = await client.GetAsync($"Bank/GetStatement/{id}");
+        
+        var jsonResponse = await response.Content.ReadAsStringAsync();
+        var result = JsonSerializer.Deserialize<int>(jsonResponse);
+        var expectedAccount = new Account()
+        {
+            Balance = 500,
+            Movements = { new Movement(500, 500) }
+        };
+        Assert.Equal(expectedAccount.Balance, result);
+    }
 
     private HttpClient GetTestHttpClient()
     {
