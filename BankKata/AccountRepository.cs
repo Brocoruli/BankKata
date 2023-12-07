@@ -36,7 +36,12 @@ public class AccountRepository
     public void Withdraw(int id, int amount)
     {
         var persistedAccount = accounts.Find(a => a.Id == id);
-        persistedAccount.Balance -= amount;
+        var result = persistedAccount.Balance - amount;
+        if (result < 0)
+        {
+            throw new InvalidOperationException("Your balance is less than the amount that you want");;
+        }
+        persistedAccount.Balance = result;
         persistedAccount.Movements.Add(new Movement(-amount, persistedAccount.Balance));
     }
 

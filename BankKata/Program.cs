@@ -13,8 +13,16 @@ app.MapPost("Bank/Deposit/amount",(HttpContext context, AccountRepository accoun
 
 app.MapPost("Bank/Withdraw/amount",(HttpContext context, AccountRepository accountRepository, AccountRequest accountRequest) =>
 {
-    accountRepository.Withdraw(accountRequest.id, accountRequest.amount);
-    context.Response.WriteAsync("Ok");
+    try
+    {
+        accountRepository.Withdraw(accountRequest.id, accountRequest.amount);
+    }
+    catch (InvalidOperationException e)
+    {
+        return Results.BadRequest();
+    }
+
+    return Results.Ok();
 });
 
 app.MapGet("Bank/GetStatement/{id}", ([FromRoute] int id, HttpRequest request, AccountRepository accountRepository) =>
