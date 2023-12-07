@@ -11,6 +11,12 @@ app.MapPost("Bank/Deposit/amount",(HttpContext context, AccountRepository accoun
     context.Response.WriteAsync("Ok");
 });
 
+app.MapPost("Bank/Withdraw/amount",(HttpContext context, AccountRepository accountRepository, AccountRequest accountRequest) =>
+{
+    accountRepository.Withdraw(accountRequest.id, accountRequest.amount);
+    context.Response.WriteAsync("Ok");
+});
+
 app.MapGet("Bank/GetStatement/{id}", ([FromRoute] int id, HttpRequest request, AccountRepository accountRepository) =>
 {
     return accountRepository.GetBalance(id);

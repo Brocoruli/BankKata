@@ -49,7 +49,7 @@ public class BankControllerShould
         var accountRequest = new AccountRequest()
         {
             id = 2,
-            amount = -500
+            amount = 500
         };
         var request = JsonSerializer.Serialize(accountRequest);
         
