@@ -7,7 +7,7 @@ var app = builder.Build();
 
 app.MapPost("Bank/Deposit/amount",(HttpContext context, AccountRepository accountRepository, AccountRequest accountRequest) =>
 {
-    accountRepository.Deposit(accountRequest.id, accountRequest.amount);
+    accountRepository.Deposit(accountRequest);
     context.Response.WriteAsync("Ok");
 });
 
@@ -15,7 +15,7 @@ app.MapPost("Bank/Withdraw/amount",(HttpContext context, AccountRepository accou
 {
     try
     {
-        accountRepository.Withdraw(accountRequest.id, accountRequest.amount);
+        accountRepository.Withdraw(accountRequest);
     }
     catch (InvalidOperationException e)
     {

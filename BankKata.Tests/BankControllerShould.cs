@@ -15,8 +15,8 @@ public class BankControllerShould
         var responseDeposit = new HttpResponseMessage(HttpStatusCode.NotImplemented);
         var accountRequest = new AccountRequest()
         {
-            id = 1,
-            amount = 500
+            Id = 1,
+            Amount = 500
         };
         var request = JsonSerializer.Serialize(accountRequest);
         
@@ -48,8 +48,8 @@ public class BankControllerShould
         var responseWithdraw = new HttpResponseMessage(HttpStatusCode.NotImplemented);
         var accountRequest = new AccountRequest()
         {
-            id = 2,
-            amount = 500
+            Id = 2,
+            Amount = 500
         };
         var request = JsonSerializer.Serialize(accountRequest);
         
@@ -81,8 +81,8 @@ public class BankControllerShould
         var responseWithdraw = new HttpResponseMessage(HttpStatusCode.NotImplemented);
         var accountRequest = new AccountRequest()
         {
-            id = 2,
-            amount = 1000
+            Id = 2,
+            Amount = 1000
         };
         var request = JsonSerializer.Serialize(accountRequest);
         

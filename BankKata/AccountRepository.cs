@@ -2,7 +2,7 @@
 
 public class AccountRepository
 {
-    private List<Account> accounts = new()
+    private List<Account> Accounts = new()
     {
         new Account()
         {
@@ -26,28 +26,28 @@ public class AccountRepository
         }
     };
     
-    public void Deposit(int id, int amount)
+    public void Deposit(AccountRequest accountRequest)
     {
-        var persistedAccount = accounts.Find(a => a.Id == id);
-        persistedAccount.Balance += amount;
-        persistedAccount.Movements.Add(new Movement(amount, persistedAccount.Balance));
+        var persistedAccount = Accounts.Find(a => a.Id == accountRequest.Id);
+        persistedAccount.Balance += accountRequest.Amount;
+        persistedAccount.Movements.Add(new Movement(accountRequest.Amount, persistedAccount.Balance));
     }
     
-    public void Withdraw(int id, int amount)
+    public void Withdraw(AccountRequest accountRequest)
     {
-        var persistedAccount = accounts.Find(a => a.Id == id);
-        var result = persistedAccount.Balance - amount;
+        var persistedAccount = Accounts.Find(a => a.Id == accountRequest.Id);
+        var result = persistedAccount.Balance - accountRequest.Amount;
         if (result < 0)
         {
             throw new InvalidOperationException("Your balance is less than the amount that you want");;
         }
         persistedAccount.Balance = result;
-        persistedAccount.Movements.Add(new Movement(-amount, persistedAccount.Balance));
+        persistedAccount.Movements.Add(new Movement(-accountRequest.Amount, persistedAccount.Balance));
     }
 
     public int GetBalance(int id)
     {
-        var persistedAccount = accounts.Find(a => a.Id == id);
+        var persistedAccount = Accounts.Find(a => a.Id == id);
         return persistedAccount.Balance;
     }
 }
