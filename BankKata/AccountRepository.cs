@@ -1,4 +1,4 @@
-﻿using BankKata;
+﻿namespace BankKata;
 
 public class AccountRepository
 {
@@ -25,18 +25,6 @@ public class AccountRepository
             }
         }
     };
-    
-    public void Withdraw(AccountRequest accountRequest)
-    {
-        var persistedAccount = Accounts.Find(a => a.Id == accountRequest.Id);
-        var result = persistedAccount.Balance - accountRequest.Amount;
-        if (result < 0)
-        {
-            throw new InvalidOperationException("Your balance is less than the amount that you want");;
-        }
-        persistedAccount.Balance = result;
-        persistedAccount.Movements.Add(new Movement(-accountRequest.Amount, persistedAccount.Balance));
-    }
 
     public int GetBalance(int id)
     {
