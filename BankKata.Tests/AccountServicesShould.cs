@@ -15,6 +15,7 @@ public class AccountServicesShould
     [Fact]
     public void DepositAmountCorrectlyInTheAccount()
     {
+        const int accountId = 1;
         var accountRequest = new AccountRequest()
         {
             Id = 1,
@@ -23,7 +24,8 @@ public class AccountServicesShould
         
         _accountServices.Deposit(accountRequest);
 
-        var balance = _accountRepository.GetBalance(1);
+        
+        var balance = _accountRepository.GetBalance(accountId);
         const int expectedBalance = 500;
         balance.Should().Be(expectedBalance);
     }
