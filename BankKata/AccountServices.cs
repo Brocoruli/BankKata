@@ -19,6 +19,10 @@ public class AccountServices
 
     public void Withdraw(AccountRequest accountRequest)
     {
-        throw new NotImplementedException();
+        var account = _accountRepository.Find(accountRequest.Id);
+        var result = account.Balance - accountRequest.Amount;
+        account.Balance = result;
+        account.Movements.Add(new Movement(-accountRequest.Amount, account.Balance));
+        _accountRepository.Save(account);
     }
 }
