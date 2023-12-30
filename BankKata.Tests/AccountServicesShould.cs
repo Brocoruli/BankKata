@@ -23,7 +23,6 @@ public class AccountServicesShould
         };
         
         _accountServices.Deposit(accountRequest);
-
         
         var balance = _accountRepository.GetBalance(accountId);
         const int expectedBalance = 500;

@@ -50,4 +50,24 @@ public class AccountRepository
         var persistedAccount = Accounts.Find(a => a.Id == id);
         return persistedAccount.Balance;
     }
+
+    public Account Find(int accountId)
+    {
+        return Accounts.Find(a => a.Id == accountId);
+    }
+
+    public void Save(Account account)
+    {
+        var persistedAccount = Accounts.FirstOrDefault(a => a.Id == account.Id);
+        if (persistedAccount != null)
+        {
+            persistedAccount.Balance = account.Balance;
+            persistedAccount.Movements = account.Movements;
+        }
+        else
+        {
+            Accounts.Add(account);
+        }
+        
+    }
 }

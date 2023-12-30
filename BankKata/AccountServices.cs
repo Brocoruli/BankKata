@@ -11,6 +11,9 @@ public class AccountServices
 
     public void Deposit(AccountRequest accountRequest)
     {
-        throw new NotImplementedException();
+        var account = _accountRepository.Find(accountRequest.Id);
+        account.Balance += accountRequest.Amount;
+        account.Movements.Add(new Movement(accountRequest.Amount, account.Balance));
+        _accountRepository.Save(account);
     }
 }
