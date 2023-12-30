@@ -1,13 +1,17 @@
+using BankKata;
 using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
+var accountRepository = new AccountRepository();
 
-builder.Services.AddSingleton(new AccountRepository());
+builder.Services.AddSingleton(accountRepository);
+builder.Services.AddSingleton(new AccountServices(accountRepository));
+
 var app = builder.Build();
 
-app.MapPost("Bank/Deposit/amount",(HttpContext context, AccountRepository accountRepository, AccountRequest accountRequest) =>
+app.MapPost("Bank/Deposit/amount",(HttpContext context, AccountServices accountServices, AccountRequest accountRequest) =>
 {
-    accountRepository.Deposit(accountRequest);
+    accountServices.Deposit(accountRequest);
     context.Response.WriteAsync("Ok");
 });
 

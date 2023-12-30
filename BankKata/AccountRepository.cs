@@ -26,13 +26,6 @@ public class AccountRepository
         }
     };
     
-    public void Deposit(AccountRequest accountRequest)
-    {
-        var persistedAccount = Accounts.Find(a => a.Id == accountRequest.Id);
-        persistedAccount.Balance += accountRequest.Amount;
-        persistedAccount.Movements.Add(new Movement(accountRequest.Amount, persistedAccount.Balance));
-    }
-    
     public void Withdraw(AccountRequest accountRequest)
     {
         var persistedAccount = Accounts.Find(a => a.Id == accountRequest.Id);
