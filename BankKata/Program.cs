@@ -15,11 +15,11 @@ app.MapPost("Bank/Deposit/amount",(HttpContext context, AccountServices accountS
     context.Response.WriteAsync("Ok");
 });
 
-app.MapPost("Bank/Withdraw/amount",(HttpContext context, AccountRepository accountRepository, AccountRequest accountRequest) =>
+app.MapPost("Bank/Withdraw/amount",(HttpContext context, AccountServices accountServices, AccountRequest accountRequest) =>
 {
     try
     {
-        accountRepository.Withdraw(accountRequest);
+        accountServices.Withdraw(accountRequest);
     }
     catch (InvalidOperationException e)
     {
