@@ -16,4 +16,9 @@ public class AccountServices
         account.Movements.Add(new Movement(accountRequest.Amount, account.Balance));
         _accountRepository.Save(account);
     }
+
+    public void Withdraw(AccountRequest accountRequest)
+    {
+        throw new NotImplementedException();
+    }
 }
