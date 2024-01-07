@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BankKata.Migrations
 {
     [DbContext(typeof(BankKataDbContext))]
-    [Migration("20240101182702_initialMigrations")]
+    [Migration("20240107161313_initialMigrations")]
     partial class initialMigrations
     {
         /// <inheritdoc />
@@ -38,6 +38,18 @@ namespace BankKata.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Accounts");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Balance = 0
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Balance = 500
+                        });
                 });
 
             modelBuilder.Entity("BankKata.Movement", b =>
@@ -51,15 +63,33 @@ namespace BankKata.Migrations
                     b.Property<int>("AccountId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("Statement")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("Amount")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Balance")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AccountId");
 
                     b.ToTable("Movements");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AccountId = 1,
+                            Amount = 0,
+                            Balance = 0
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AccountId = 2,
+                            Amount = 500,
+                            Balance = 500
+                        });
                 });
 
             modelBuilder.Entity("BankKata.Movement", b =>

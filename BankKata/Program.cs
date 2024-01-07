@@ -4,8 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 var accountRepository = new AccountRepository();
-
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddSingleton(accountRepository);
+
 builder.Services.AddSingleton(new AccountServices(accountRepository));
 
 var Configuration = builder.Configuration;
@@ -14,13 +15,13 @@ builder.Services.AddDbContext<BankKataDbContext>(options =>
 
 var app = builder.Build();
 
-app.MapPost("Bank/Deposit/amount",(HttpContext context, AccountServices accountServices, AccountRequest accountRequest) =>
+app.MapPost("Bank/Deposit/amount",(HttpContext context, [FromBody]  AccountRequest accountRequest, AccountServices accountServices) =>
 {
     accountServices.Deposit(accountRequest);
     context.Response.WriteAsync("Ok");
 });
 
-app.MapPost("Bank/Withdraw/amount",(HttpContext context, AccountServices accountServices, AccountRequest accountRequest) =>
+app.MapPost("Bank/Withdraw/amount",(HttpContext context, [FromBody] AccountRequest accountRequest, AccountServices accountServices) =>
 {
     try
     {
@@ -34,7 +35,7 @@ app.MapPost("Bank/Withdraw/amount",(HttpContext context, AccountServices account
     return Results.Ok();
 });
 
-app.MapGet("Bank/GetStatement/{id}", ([FromRoute] int id, HttpRequest request, AccountRepository accountRepository) =>
+app.MapGet("Bank/GetStatement/{id}", ([FromServices] AccountRepository accountRepository, [FromRoute] int id, HttpRequest request) =>
 {
     return accountRepository.GetBalance(id);
 });

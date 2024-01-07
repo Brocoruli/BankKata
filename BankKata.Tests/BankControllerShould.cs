@@ -35,6 +35,7 @@ public class BankControllerShould
         var result = JsonSerializer.Deserialize<int>(jsonResponse);
         var expectedAccount = new Account()
         {
+            Id = 1,
             Balance = 500,
             Movements = { new Movement(500, 500) }
         };
@@ -68,6 +69,7 @@ public class BankControllerShould
         var result = JsonSerializer.Deserialize<int>(jsonResponse);
         var expectedAccount = new Account()
         {
+            Id = 2,
             Balance = 0,
             Movements = { new Movement(500, 500), new Movement(-500, 0) }
         };

@@ -3,6 +3,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace BankKata.Migrations
 {
     /// <inheritdoc />
@@ -31,7 +33,8 @@ namespace BankKata.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     AccountId = table.Column<int>(type: "integer", nullable: false),
-                    Statement = table.Column<string>(type: "text", nullable: false)
+                    Amount = table.Column<int>(type: "integer", nullable: false),
+                    Balance = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -42,6 +45,24 @@ namespace BankKata.Migrations
                         principalTable: "Accounts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Accounts",
+                columns: new[] { "Id", "Balance" },
+                values: new object[,]
+                {
+                    { 1, 0 },
+                    { 2, 500 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Movements",
+                columns: new[] { "Id", "AccountId", "Amount", "Balance" },
+                values: new object[,]
+                {
+                    { 1, 1, 0, 0 },
+                    { 2, 2, 500, 500 }
                 });
 
             migrationBuilder.CreateIndex(

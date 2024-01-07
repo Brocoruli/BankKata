@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
 
-namespace BankKata.Tests;
+namespace BankKata.Tests.Integration;
 
 public class AccountServicesShould
 {
@@ -28,21 +28,5 @@ public class AccountServicesShould
         const int expectedBalance = 500;
         balance.Should().Be(expectedBalance);
     }
-    
-    [Fact]
-    public void MakeAWithdrawCorrectly()
-    {
-        const int accountId = 2;
-        var accountRequest = new AccountRequest()
-        {
-            Id = 2,
-            Amount = 500
-        };
-        
-        _accountServices.Withdraw(accountRequest);
-        
-        var balance = _accountRepository.GetBalance(accountId);
-        const int expectedBalance = 0;
-        balance.Should().Be(expectedBalance);
-    }
+
 }
