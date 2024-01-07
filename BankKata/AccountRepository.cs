@@ -2,18 +2,28 @@
 
 public class AccountRepository : IAccountRepository
 {
-    public int GetBalance(int id)
+    private readonly BankKataDbContext _context;
+
+    public AccountRepository(BankKataDbContext context)
     {
-        throw new NotImplementedException();
+        _context = context;
     }
 
-    public Account Find(int accountId)
+    public async Task<int> GetBalance(int accountId)
     {
-        throw new NotImplementedException();
+        var account = _context.Accounts.FirstOrDefault(account => account.Id == accountId);
+        return account.Balance;
     }
 
-    public void Save(Account account)
+    public async Task<Account> Find(int accountId)
     {
-        throw new NotImplementedException();
+        var account = _context.Accounts.FirstOrDefault(account => account.Id == accountId);
+        return account;
+    }
+
+    public async void Save(Account account)
+    {
+        _context.Update(account);
+        await _context.SaveChangesAsync();
     }
 }

@@ -2,27 +2,27 @@
 
 public class AccountServices
 {
-    private IAccountRepository _accountRepositoryOnMemory;
+    private IAccountRepository _accountRepository;
     
-    public AccountServices(IAccountRepository accountRepositoryOnMemory)
+    public AccountServices(IAccountRepository accountRepository)
     {
-        _accountRepositoryOnMemory = accountRepositoryOnMemory;
+        _accountRepository = accountRepository;
     }
 
-    public void Deposit(AccountRequest accountRequest)
+    public async void Deposit(AccountRequest accountRequest)
     {
-        var account = _accountRepositoryOnMemory.Find(accountRequest.Id);
+        var account = await _accountRepository.Find(accountRequest.Id);
         account.Balance += accountRequest.Amount;
         account.Movements.Add(new Movement(accountRequest.Amount, account.Balance));
-        _accountRepositoryOnMemory.Save(account);
+        _accountRepository.Save(account);
     }
 
-    public void Withdraw(AccountRequest accountRequest)
+    public async void Withdraw(AccountRequest accountRequest)
     {
-        var account = _accountRepositoryOnMemory.Find(accountRequest.Id);
+        var account = await _accountRepository.Find(accountRequest.Id);
         var result = account.Balance - accountRequest.Amount;
         account.Balance = result;
         account.Movements.Add(new Movement(-accountRequest.Amount, account.Balance));
-        _accountRepositoryOnMemory.Save(account);
+        _accountRepository.Save(account);
     }
 }

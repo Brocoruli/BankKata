@@ -26,13 +26,13 @@ public class AccountRepositoryOnMemory : IAccountRepository
         }
     };
 
-    public int GetBalance(int id)
+    public async Task<int> GetBalance(int id)
     {
         var persistedAccount = Accounts.Find(a => a.Id == id);
         return persistedAccount.Balance;
     }
 
-    public Account Find(int accountId)
+    public async Task<Account> Find(int accountId)
     {
         return Accounts.Find(a => a.Id == accountId);
     }

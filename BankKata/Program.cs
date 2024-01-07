@@ -3,15 +3,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-var accountRepository = new AccountRepository();
-builder.Services.AddScoped<IAccountRepository, AccountRepository>();
-builder.Services.AddSingleton(accountRepository);
-
-builder.Services.AddSingleton(new AccountServices(accountRepository));
-
 var Configuration = builder.Configuration;
 builder.Services.AddDbContext<BankKataDbContext>(options =>
     options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+
+//var accountRepository = new AccountRepository(new BankKataDbContext());
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+//builder.Services.AddSingleton(accountRepository);
+builder.Services.AddScoped<AccountServices>();
+//builder.Services.AddSingleton(new AccountServices(accountRepository));
+
+
 
 var app = builder.Build();
 
