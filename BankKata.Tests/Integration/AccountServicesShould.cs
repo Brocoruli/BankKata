@@ -20,11 +20,11 @@ public class AccountServicesShould
     [Fact]
     public async Task DepositAmountCorrectlyInTheAccount()
     {
-        _testContext.BankKataDbContext.Accounts.AddAsync(new Account(new Guid("881b2297-1c8f-4ef2-b80c-bfa5a43107ae"), 0));
-        _testContext.BankKataDbContext.Movements.AddAsync(new Movement(Guid.NewGuid(),new Guid("881b2297-1c8f-4ef2-b80c-bfa5a43107ae"), 0, 0));
+        var accountId = new Guid("211c1965-5be2-40c7-a83a-fe3d15814d18");
+        _testContext.BankKataDbContext.Accounts.AddAsync(new Account(accountId, 0));
+        _testContext.BankKataDbContext.Movements.AddAsync(new Movement(Guid.NewGuid(),accountId, 0, 0));
         _testContext.BankKataDbContext.SaveChangesAsync();
         
-        var accountId = new Guid("881b2297-1c8f-4ef2-b80c-bfa5a43107ae");
         var accountRequest = new AccountRequest()
         {
             Id = accountId,
@@ -41,11 +41,11 @@ public class AccountServicesShould
     [Fact]
     public async Task WithdrawAmountCorrectlyInTheAccount()
     {
-        _testContext.BankKataDbContext.Accounts.AddAsync(new Account(new Guid("2d61906c-d856-4b3b-89b1-67673ee5499c"), 500));
-        _testContext.BankKataDbContext.Movements.AddAsync(new Movement(Guid.NewGuid(),new Guid("2d61906c-d856-4b3b-89b1-67673ee5499c"), 500, 500));
+        var accountId = new Guid("5837b26e-48f3-4842-b986-8179dc309a2a");
+        _testContext.BankKataDbContext.Accounts.AddAsync(new Account(accountId, 500));
+        _testContext.BankKataDbContext.Movements.AddAsync(new Movement(Guid.NewGuid(),accountId, 500, 500));
         _testContext.BankKataDbContext.SaveChangesAsync();
         
-        var accountId = new Guid("2d61906c-d856-4b3b-89b1-67673ee5499c");
         var accountRequest = new AccountRequest()
         {
             Id = accountId,

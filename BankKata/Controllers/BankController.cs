@@ -18,14 +18,14 @@ public class BankController : Controller
     [HttpPost("Deposit")]
     public async Task<IActionResult> Deposit([FromBody] AccountRequest accountRequest)
     {
-        _accountServices.Deposit(accountRequest);
+        await _accountServices.Deposit(accountRequest);
         return Ok();
     }
     
     [HttpPost("Withdraw")]
     public async Task<IActionResult> Withdraw([FromBody] AccountRequest accountRequest)
     {
-        _accountServices.Withdraw(accountRequest);
+        await _accountServices.Withdraw(accountRequest);
         return Ok();
     }
     

@@ -1,5 +1,6 @@
 ﻿using System.Net.Http.Headers;
 using BankKata.Infrastructure.Data;
+using BankKata.Infrastructure.Data.Repositories;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Connections;
 using Microsoft.AspNetCore.Hosting;
@@ -57,6 +58,7 @@ public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<TStar
                 ServiceCollectionDescriptorExtensions.RemoveAll(services, mockedType);
                 services.Add(mockedService);
             }
+            services.AddScoped<AccountRepository>();
         });
     }
 

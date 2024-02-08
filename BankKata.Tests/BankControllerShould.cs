@@ -74,7 +74,7 @@ public class BankControllerShould : IClassFixture<CustomWebApplicationFactory<St
         };
         var request = JsonConvert.SerializeObject(accountRequest);
         
-        responseWithdraw = await _httpClient.PostAsync("api/v1//Bank/Withdraw",
+        responseWithdraw = await _httpClient.PostAsync("api/v1/Bank/Withdraw",
             new StringContent(request, Encoding.UTF8, "application/json"));
 
         Assert.Equal(HttpStatusCode.OK, responseWithdraw.StatusCode);
