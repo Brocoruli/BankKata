@@ -25,14 +25,14 @@ Para ejecutar los comandos de migración, sitúate en el terminal en el proyecto
 
 Ejecuta el siguiente comando para crear una nueva migración.
 ```
-dotnet ef migrations add NombreDeLaMigracion
+dotnet ef migrations add initialMigrations --project BankKata.Infrastructure.Data --startup-project BankKata
 ```
 Utiliza el siguiente comando para aplicar las migraciones pendientes a la base de datos.
 ```
-dotnet ef database update
+dotnet ef database  update --project BankKata.Infrastructure.Data --startup-project BankKata
 ```
 Revertir la Última Migración:
 Si es necesario, puedes revertir la última migración ejecutando el siguiente comando.
 ```
-dotnet ef migrations remove
+dotnet ef migrations remove --project BankKata.Infrastructure.Data --startup-project BankKata
 ```

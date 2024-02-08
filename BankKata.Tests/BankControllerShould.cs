@@ -1,79 +1,98 @@
 using System.Net;
 using System.Text;
-using System.Text.Json;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.AspNetCore.TestHost;
+using BankKata.Domain.Entities;
+using BankKata.Tests.BogusData;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace BankKata.Tests;
 
-public class BankControllerShould
+public class BankControllerShould : IClassFixture<CustomWebApplicationFactory<Startup>>
 {
+    private readonly CustomWebApplicationFactory<Startup> _factory;
+    private readonly HttpClient _httpClient;
+
+    public BankControllerShould(CustomWebApplicationFactory<Startup> factory)
+    {
+        _factory = factory;
+        _httpClient = factory.CreateClient();
+        Task.WaitAll(_factory.RespawnDbContext());
+    }
+
     [Fact]
     public async void MakeADepositCorrectly()
     {
-        using var client = GetTestHttpClient();
+        await _factory.ExecuteDbContextAsync(async context =>
+        {
+            await context.Database.ExecuteSqlRawAsync(AccountSeedData.AccountWithMovements());
+            await context.SaveChangesAsync();
+        });
+        
         var responseDeposit = new HttpResponseMessage(HttpStatusCode.NotImplemented);
+        var id = new Guid("881b2297-1c8f-4ef2-b80c-bfa5a43107ae");
         var accountRequest = new AccountRequest()
         {
-            Id = 1,
+            Id = id,
             Amount = 500
         };
-        var request = JsonSerializer.Serialize(accountRequest);
+        var request = JsonConvert.SerializeObject(accountRequest);
         
-        responseDeposit = await client.PostAsync("Bank/Deposit/amount",
+        responseDeposit = await _httpClient.PostAsync("api/Bank/Deposit",
             new StringContent(request, Encoding.UTF8, "application/json"));
-
+        
         Assert.Equal(HttpStatusCode.OK, responseDeposit.StatusCode);
-
         
         var response = new HttpResponseMessage(HttpStatusCode.NotImplemented);
-        var id = 1;
         
-        response = await client.GetAsync($"Bank/GetStatement/{id}");
+        response = await _httpClient.GetAsync($"api/Bank/GetAccount/{id}");
         
         var jsonResponse = await response.Content.ReadAsStringAsync();
-        var result = JsonSerializer.Deserialize<int>(jsonResponse);
+        var result = JsonConvert.DeserializeObject<Account>(jsonResponse);
         var expectedAccount = new Account()
         {
-            Id = 1,
+            Id = id,
             Balance = 500,
             Movements = { new Movement(500, 500) }
         };
-        Assert.Equal(expectedAccount.Balance, result);
+        Assert.Equal(expectedAccount.Balance, result.GetBalance());
     }
     
     [Fact]
     public async void MakeAWithdrawCorrectly()
     {
-        using var client = GetTestHttpClient();
+        await _factory.ExecuteDbContextAsync(async context =>
+        {
+            await context.Database.ExecuteSqlRawAsync(AccountSeedData.AccountWithMovements());
+            await context.SaveChangesAsync();
+        });
+        
         var responseWithdraw = new HttpResponseMessage(HttpStatusCode.NotImplemented);
+        var id = new Guid("2d61906c-d856-4b3b-89b1-67673ee5499c");
         var accountRequest = new AccountRequest()
         {
-            Id = 2,
+            Id = id,
             Amount = 500
         };
-        var request = JsonSerializer.Serialize(accountRequest);
+        var request = JsonConvert.SerializeObject(accountRequest);
         
-        responseWithdraw = await client.PostAsync("Bank/Withdraw/amount",
+        responseWithdraw = await _httpClient.PostAsync("api/Bank/Withdraw",
             new StringContent(request, Encoding.UTF8, "application/json"));
 
         Assert.Equal(HttpStatusCode.OK, responseWithdraw.StatusCode);
-
         
         var response = new HttpResponseMessage(HttpStatusCode.NotImplemented);
-        var id = 2;
         
-        response = await client.GetAsync($"Bank/GetStatement/{id}");
+        response = await _httpClient.GetAsync($"api/Bank/GetAccount/{id}");
         
         var jsonResponse = await response.Content.ReadAsStringAsync();
-        var result = JsonSerializer.Deserialize<int>(jsonResponse);
+        var result = JsonConvert.DeserializeObject<Account>(jsonResponse);
         var expectedAccount = new Account()
         {
-            Id = 2,
+            Id = id,
             Balance = 0,
             Movements = { new Movement(500, 500), new Movement(-500, 0) }
         };
-        Assert.Equal(expectedAccount.Balance, result);
+        Assert.Equal(expectedAccount.Balance, result.GetBalance());
     }
     
     // [Fact]
@@ -108,17 +127,4 @@ public class BankControllerShould
     //     };
     //     Assert.Equal(expectedAccount.Balance, result);
     // }
-
-    private HttpClient GetTestHttpClient()
-    {
-        var application = new WebApplicationFactory<Program>();
-        var client = application.WithWebHostBuilder(
-            builder => builder.ConfigureTestServices(
-                services => { }
-            )).CreateClient(new WebApplicationFactoryClientOptions()
-        {
-            AllowAutoRedirect = false
-        });
-        return client;
-    }
 }

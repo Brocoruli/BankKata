@@ -1,10 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankKata", "BankKata\BankKata.csproj", "{F02FF4CD-BE45-4442-B3AD-ABF9AFBFF173}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DB978085-2EDE-4808-9171-D72C24B9FD2E} = {DB978085-2EDE-4808-9171-D72C24B9FD2E}
+		{63CDA16D-ACA5-4BA5-B358-45CCF5ECBD66} = {63CDA16D-ACA5-4BA5-B358-45CCF5ECBD66}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankKata.Tests", "BankKata.Tests\BankKata.Tests.csproj", "{A1ECA611-D3A5-4813-8271-D6CF3275EC16}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankKata.Infrastructure", "BankKata.Infrastructure\BankKata.Infrastructure.csproj", "{63CDA16D-ACA5-4BA5-B358-45CCF5ECBD66}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankKata.Infrastructure.Data", "BankKata.Infrastructure.Data\BankKata.Infrastructure.Data.csproj", "{63CDA16D-ACA5-4BA5-B358-45CCF5ECBD66}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankKata.Domain", "BankKata.Domain\BankKata.Domain.csproj", "{DB978085-2EDE-4808-9171-D72C24B9FD2E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,5 +30,9 @@ Global
 		{63CDA16D-ACA5-4BA5-B358-45CCF5ECBD66}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63CDA16D-ACA5-4BA5-B358-45CCF5ECBD66}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63CDA16D-ACA5-4BA5-B358-45CCF5ECBD66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB978085-2EDE-4808-9171-D72C24B9FD2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB978085-2EDE-4808-9171-D72C24B9FD2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB978085-2EDE-4808-9171-D72C24B9FD2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB978085-2EDE-4808-9171-D72C24B9FD2E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

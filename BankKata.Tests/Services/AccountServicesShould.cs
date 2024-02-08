@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using BankKata.Tests.Repositories;
+using FluentAssertions;
 
 namespace BankKata.Tests.Services;
 
@@ -13,36 +14,36 @@ public class AccountServicesShould
     }
 
     [Fact]
-    public void DepositAmountCorrectlyInTheAccount()
+    public async Task DepositAmountCorrectlyInTheAccount()
     {
-        const int accountId = 1;
+        var accountId = new Guid("881b2297-1c8f-4ef2-b80c-bfa5a43107ae");
         var accountRequest = new AccountRequest()
         {
-            Id = 1,
+            Id = accountId,
             Amount = 500
         };
         
         _accountServices.Deposit(accountRequest);
         
-        var balance = _accountRepositoryOnMemory.GetBalance(accountId);
+        var account = await _accountRepositoryOnMemory.Find(accountId);
         const int expectedBalance = 500;
-        balance.Should().Be(expectedBalance);
+        account.GetBalance().Should().Be(expectedBalance);
     }
     
     [Fact]
-    public void MakeAWithdrawCorrectly()
+    public async Task MakeAWithdrawCorrectly()
     {
-        const int accountId = 2;
+        var accountId = new Guid("2d61906c-d856-4b3b-89b1-67673ee5499c");
         var accountRequest = new AccountRequest()
         {
-            Id = 2,
+            Id = accountId,
             Amount = 500
         };
         
         _accountServices.Withdraw(accountRequest);
         
-        var balance = _accountRepositoryOnMemory.GetBalance(accountId);
+        var account = await _accountRepositoryOnMemory.Find(accountId);
         const int expectedBalance = 0;
-        balance.Should().Be(expectedBalance);
+        account.GetBalance().Should().Be(expectedBalance);
     }
 }

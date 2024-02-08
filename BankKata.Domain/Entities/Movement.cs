@@ -1,16 +1,16 @@
-﻿namespace BankKata;
+﻿namespace BankKata.Domain.Entities;
 
 public class Movement
 {
-    public int Id { get; set; }
-    public int AccountId { get; set; }
+    public Guid Id { get; set; }
+    public Guid AccountId { get; set; }
     public int Amount { get; set; }
     public int Balance { get; set; }
     
 
     public Movement(){}
 
-    public Movement(int id, int accountId, int amount, int balance)
+    public Movement(Guid id, Guid accountId, int amount, int balance)
     {
         Id = id;
         AccountId = accountId;
