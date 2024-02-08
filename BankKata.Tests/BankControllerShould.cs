@@ -36,14 +36,14 @@ public class BankControllerShould : IClassFixture<CustomWebApplicationFactory<St
             Amount = 500
         };
         var request = JsonConvert.SerializeObject(accountRequest);
-        responseDeposit = await _httpClient.PostAsync("api/Bank/Deposit",
+        responseDeposit = await _httpClient.PostAsync("api/v1/Bank/Deposit",
             new StringContent(request, Encoding.UTF8, "application/json"));
         
         Assert.Equal(HttpStatusCode.OK, responseDeposit.StatusCode);
         
         var response = new HttpResponseMessage(HttpStatusCode.NotImplemented);
         
-        response = await _httpClient.GetAsync($"api/Bank/GetAccount/{id}");
+        response = await _httpClient.GetAsync($"api/v1/Bank/GetAccount/{id}");
         
         var jsonResponse = await response.Content.ReadAsStringAsync();
         var result = JsonConvert.DeserializeObject<Account>(jsonResponse);
@@ -74,14 +74,14 @@ public class BankControllerShould : IClassFixture<CustomWebApplicationFactory<St
         };
         var request = JsonConvert.SerializeObject(accountRequest);
         
-        responseWithdraw = await _httpClient.PostAsync("api/Bank/Withdraw",
+        responseWithdraw = await _httpClient.PostAsync("api/v1//Bank/Withdraw",
             new StringContent(request, Encoding.UTF8, "application/json"));
 
         Assert.Equal(HttpStatusCode.OK, responseWithdraw.StatusCode);
         
         var response = new HttpResponseMessage(HttpStatusCode.NotImplemented);
         
-        response = await _httpClient.GetAsync($"api/Bank/GetAccount/{id}");
+        response = await _httpClient.GetAsync($"api/v1/Bank/GetAccount/{id}");
         
         var jsonResponse = await response.Content.ReadAsStringAsync();
         var result = JsonConvert.DeserializeObject<Account>(jsonResponse);

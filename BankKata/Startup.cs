@@ -20,10 +20,13 @@ public class Startup
         services.AddCors();
         services.AddRepositories();
         services.AddVersioning();
+        services.AddScoped<AccountServices>();
         services.AddControllers();
         services.AddSwagger();
         services.AddDbContext<BankKataDbContext>(options =>
             options.UseNpgsql(Configuration.GetConnectionString("DBConnection")));
+        
+
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IApiVersionDescriptionProvider provider)
