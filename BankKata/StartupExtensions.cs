@@ -45,4 +45,12 @@ public static class StartupExtensions
                 options.SubstituteApiVersionInUrl = true;
             });
     }
+
+    public static void UseCorsCustom(this IApplicationBuilder app, IConfiguration configuration)
+    {
+        app.UseCors(builder =>
+            builder.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+    }
 }

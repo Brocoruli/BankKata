@@ -17,6 +17,7 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
+        services.AddCors();
         services.AddRepositories();
         services.AddVersioning();
         services.AddControllers();
@@ -29,6 +30,7 @@ public class Startup
     {
         app.UseStaticFiles();
         app.UseRouting();
+        app.UseCorsCustom(Configuration);
         app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         app.UseSwagger();
         app.UseSwaggerDocumentationUi(provider, Configuration);
