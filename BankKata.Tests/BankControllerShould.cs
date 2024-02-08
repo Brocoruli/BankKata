@@ -20,7 +20,7 @@ public class BankControllerShould : IClassFixture<CustomWebApplicationFactory<St
     }
 
     [Fact]
-    public async void MakeADepositCorrectly()
+    public async Task MakeADepositCorrectly()
     {
         await _factory.ExecuteDbContextAsync(async context =>
         {
@@ -36,7 +36,6 @@ public class BankControllerShould : IClassFixture<CustomWebApplicationFactory<St
             Amount = 500
         };
         var request = JsonConvert.SerializeObject(accountRequest);
-        
         responseDeposit = await _httpClient.PostAsync("api/Bank/Deposit",
             new StringContent(request, Encoding.UTF8, "application/json"));
         
@@ -58,7 +57,7 @@ public class BankControllerShould : IClassFixture<CustomWebApplicationFactory<St
     }
     
     [Fact]
-    public async void MakeAWithdrawCorrectly()
+    public async Task MakeAWithdrawCorrectly()
     {
         await _factory.ExecuteDbContextAsync(async context =>
         {
